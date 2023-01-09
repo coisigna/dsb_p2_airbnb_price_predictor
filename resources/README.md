@@ -6,10 +6,10 @@ Hemos sacado las ideas de los proyectos de esta [página](https://nodd3r.com/blo
 
 Para el desarrollo del código vamos a seguir la siguiente estructura para las variables:
 
-'''python
+```python
+
 var1 = "nombrevariable"
 varN = "nombrevariable"
-
 
 #lista
 
@@ -31,11 +31,11 @@ dct_{var1}_{varN}
 
 ser_{var1}_{varN}
 
-'''
+```
 
 ### Ejemplo
 
-'''python 
+```python
 ser_precio_entrada = df["ticket_price"]
 
-'''
+```
