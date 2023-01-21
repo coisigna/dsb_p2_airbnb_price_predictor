@@ -159,93 +159,126 @@ df5.normalize()
 
 ## tts()
 
-```python
+Divides the data in train(80%) and test(20%).
 
+```python
+df5.tts()
 ```
 
 ## train_model()
 
+It trains with five different algorithms, LinearRegression, KNeighborsRegressor, DecisionTreeRegressor, RandomForestRegressor, SVR, AdaBoostRegressor and GradientBoostingRegressor and get the metrics of each.
+
 ```python
-
-
+df5.train_model()
 ```
 
 ## return_metrics()
 
+it returns the metrics of each algorithm.
+
 ```python
-
-
+df5.return_metrics()
 ```
 
 ## display_metrics()
 
+it returns the metrics of each algorithm.
+
 ```python
-
-
+df5.display_metrics()
 ```
 
 ## model_feature_importances()
 
+It gets and returns the feature importance sorted.
+
 ```python
-
-
+df5.model_feature_importances()
 ```
 
 ## grid_search_cv_tuning()
 
+It looks for the best params of the model following the metrics given.
+
 ```python
-
-
+df5.grid_search_cv_tuning()
 ```
+## return_model_result_gcv()
+
+It returns the results of the grid_search.
+
+'''python
+df5.return_model_result_gcv()
+'''
+
 
 ## grid_search_cv_validation()
 
+It splits the data in different ways in order to return the mean of the metrics and validate the model.
+
 ```python
+df5.grid_search_cv_validation()
+```
 
+## return_validation_gcv()
 
+It returns the results of validation.
+
+```python
+df5.return_validation_gcv()
 ```
 
 ## final_trial_model()
 
+It trains the best model with the features recomended.
+
 ```python
-
-
+df5.final_trial_model()
 ```
 
 ## train_final_model()
+Returns the definitive model trained with the whole data given the definitive features.
+***It must be equalized to the variable model***
 
 ```python
-
-
+df5.train_final_model()
 ```
 
 ## predict()
 
+It makes a prediction given an array with the features introduced by the user.
+
 ```python
+df5.predict("array")
 
+```
 
+## return_prediction()
+
+It returns the prediction
+
+```python
+df5.return_prediction()
 ```
 
 ## save_model()
 
+It saves the model into a file given the name, the extension(.sav recomended) and the model
+
 ```python
-
-
+df5.save_model(name = "modelairbnb", ext = ".sav", model = model)
 ```
 
 ## load_model()
 
-```python
+It loads the model in case you want to use it without training it given the name, the extension(.sav recomended) and the model
 
+```python
+df5.load_model(name = "modelairbnb", ext = ".sav", model = model)
 
 ```
 
-## final_trial_model()
-
-```python
-
-
-```
 
 
 # Main.py
