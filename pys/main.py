@@ -1,10 +1,10 @@
 import streamlit as st
-import class_airbnb as ca
+import airbnb_class as ac
 import pandas as pd
 import numpy as np
 
 
-ca.airbnb_city()
+#ac.airbnb_city()
 
 st.set_page_config(page_title="Predict your house", page_icon="🏨")
 
@@ -16,7 +16,7 @@ with tab_model:
 
     # We need a method to call the DataFrame of a city
 
-    #city = st.selectbox('Select your city', options = df["city"].unique())
+    city = st.selectbox('Select your city', options = ["Madrid", "Barcelona", "London"])
 
     #neighbourhood = st.selectbox('Select the neighbourhood', options = df[df["city"]==city]["neighbourhood_cleansed"].unique())
 
@@ -60,7 +60,7 @@ with tab_model:
     check_amenitie9 = col_2.checkbox("Air conditioning",help="")
 
 
-
+l_user_features = [neighbourhood, city, accommodates, bathrooms_text, bedrooms, beds, minimum_nights, maximum_nights, availability_365, number_of_reviews, reviews_per_month, host_total_listings_count, check_amenitie0, check_amenitie1, check_amenitie2, check_amenitie3, check_amenitie4, check_amenitie5, check_amenitie6, check_amenitie7, check_amenitie8, check_amenitie9]
 
 
 
