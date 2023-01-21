@@ -4,9 +4,31 @@ import pandas as pd
 import numpy as np
 
 
-#ac.airbnb_city()
+# load the data
+
+madrid = "datasets/madrid.csv"
+barcelona = "datasets/barcelona.csv"
+london = "datasets/london.csv"
+
+d_csvs, d_names = dict(), dict()
+
+d_csvs["csvs1"] = [madrid, barcelona]
+d_csvs["csvs2"] = [london]
+
+d_names["names1"] = ["madrid","barcelona"]
+d_names["names2"] = ["london"]
+
+df = ac.airbnb_city(csvs="barcelona.csv", city_names="barcelona")
+
+df_madbar = df.return_initial_df()
+
+# Set streamlit page
 
 st.set_page_config(page_title="Predict your house", page_icon="🏨")
+
+st.write(df_madbar)
+
+
 
 tab_model, tab_mapas = st.tabs(["Predictive model","map of yuor city"])
 
@@ -14,11 +36,9 @@ with tab_model:
 
     st.title('Predictive model')
 
-    # We need a method to call the DataFrame of a city
-
     city = st.selectbox('Select your city', options = ["Madrid", "Barcelona", "London"])
 
-    #neighbourhood = st.selectbox('Select the neighbourhood', options = df[df["city"]==city]["neighbourhood_cleansed"].unique())
+    neighbourhood = st.selectbox('Select the neighbourhood', options = df_madbar[df_madbar["city"]==city.lower()]["neighbourhood_cleansed"].unique())
 
     host_total_listings_count = st.slider("Selectyour listings counts", 0, 100)
 
@@ -59,12 +79,35 @@ with tab_model:
     check_amenitie8 = col_2.checkbox("Heating",help="")
     check_amenitie9 = col_2.checkbox("Air conditioning",help="")
 
+# User DataFrame
 
-l_user_features = [neighbourhood, city, accommodates, bathrooms_text, bedrooms, beds, minimum_nights, maximum_nights, availability_365, number_of_reviews, reviews_per_month, host_total_listings_count, check_amenitie0, check_amenitie1, check_amenitie2, check_amenitie3, check_amenitie4, check_amenitie5, check_amenitie6, check_amenitie7, check_amenitie8, check_amenitie9]
+l_columns = ['neighbourhood_cleansed', 'city', 'accommodates', 'availability_365', 'bathrooms_text', 'bedrooms', 'beds', 'minimum_nights', 'maximum_nights', 'number_of_reviews', 'reviews_per_month', 
+             'host_total_listings_count', 'Long term stays allowed', 'Cooking basics', 'Dishes and silverware', 'Essentials', 'Coffee maker', 'Hair dryer', 'Microwave', 'Refrigerator', 'Heating', 'Air conditioning', 
+             'Entire home/apt', 'Private room', 'Shared room']
+
+l_user_features = [neighbourhood, city, accommodates, availability_365, bathrooms_text, bedrooms, beds, minimum_nights, maximum_nights,  number_of_reviews, reviews_per_month, host_total_listings_count,
+                   check_amenitie0, check_amenitie1, check_amenitie2, check_amenitie3, check_amenitie4, check_amenitie5, check_amenitie6, check_amenitie7, check_amenitie8, check_amenitie9]
+
+st.write(l_columns[0])
+
+df_user = pd.DataFrame()
+
+for i in range(15):
+    df_user[l_columns[i]] = l_user_features[i] 
+
+
+st.write(df_user)
 
 
 
 
+#model = df.load_model("model", ".sav")
+
+
+# Prediction
+
+
+#st.subheader(f"The prediction of the apartament price is: {prediction}")
 
 
 
