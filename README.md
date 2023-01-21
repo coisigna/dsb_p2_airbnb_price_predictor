@@ -175,7 +175,7 @@ df5.train_model()
 
 ## return_metrics()
 
-it returns the metrics of each algorithm.
+it returns the metrics of each algorithm. Focused on r**2 and MSE
 
 ```python
 df5.return_metrics()
@@ -183,7 +183,7 @@ df5.return_metrics()
 
 ## display_metrics()
 
-it returns the metrics of each algorithm.
+it display the metrics of each algorithm.
 
 ```python
 df5.display_metrics()
@@ -208,14 +208,14 @@ df5.grid_search_cv_tuning()
 
 It returns the results of the grid_search.
 
-'''python
+```python
 df5.return_model_result_gcv()
-'''
+```
 
 
 ## grid_search_cv_validation()
 
-It splits the data in different ways in order to return the mean of the metrics and validate the model.
+It splits the data in different ways to check the model with different parts of the data in order to return the mean of the metrics and validate the model.
 
 ```python
 df5.grid_search_cv_validation()
