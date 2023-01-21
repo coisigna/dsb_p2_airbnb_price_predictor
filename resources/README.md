@@ -1,17 +1,12 @@
-# Inspiración
+# Nomenclature
 
-Hemos sacado las ideas de los proyectos de esta [página](https://nodd3r.com/blog/los-10-mejores-proyectos-de-machine-learning-si-eres-principiante)
-
-# Nomenclatura
-
-Para el desarrollo del código vamos a seguir la siguiente estructura para las variables:
+For the development of this code, we're going to use the following variables structure:
 
 ```python
+var1 = "var_name"
+varN = "var_name"
 
-var1 = "nombrevariable"
-varN = "nombrevariable"
-
-#lista
+#list
 
 l_{var1}_{varN}
 
@@ -23,9 +18,9 @@ nparr_{var1}_{varN}
 
 df_{var1}_{varN}
 
-#diccionario
+#dictionary
 
-dct_{var1}_{varN}
+d_{var1}_{varN}
 
 #series
 
@@ -33,9 +28,8 @@ ser_{var1}_{varN}
 
 ```
 
-### Ejemplo
+### Example
 
 ```python
-ser_precio_entrada = df["ticket_price"]
-
+ser_ticket_price = df["ticket_price"]
 ```
