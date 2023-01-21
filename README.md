@@ -183,7 +183,7 @@ df5.return_metrics()
 
 ## display_metrics()
 
-it display the metrics of each algorithm.
+it displays the metrics of each algorithm.
 
 ```python
 df5.display_metrics()
