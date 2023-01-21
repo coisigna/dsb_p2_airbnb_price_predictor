@@ -1,6 +1,9 @@
 # Nomenclature
 
-For the development of this code, we're going to use the following variables structure:
+For the development of this code, as there has been two pwople involved, we have agreed to follow some rules to keep the coherence of the code in terms of variable names. We will be following this variables structure:
+
+
+
 
 ```python
 var1 = "var_name"
