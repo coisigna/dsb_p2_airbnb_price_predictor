@@ -19,6 +19,7 @@ from sklearn.metrics import mean_squared_error
 
 import pickle
 
+
 class airbnb_city:
     
     def __init__(self, csvs, city_names):
