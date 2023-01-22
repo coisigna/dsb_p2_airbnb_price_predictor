@@ -297,39 +297,37 @@ class airbnb:
     def return_validations_gcv(self):
         
         return self.df_validations
-                                           
-    def return_validations_gcv(self):
-        
-        return self.df_validations
+
     
-    def final_trial_model(self, max_depth = 16, max_features = 'sqrt', n_estimators = 800, random_state = 42):
+    def final_trial_model(self, md = 16, mf = 'sqrt', ne = 800, rs = 42):
         
         '''It trains the best model with the features recomended'''
         
-        model = RandomForestRegressor(max_depth, max_features, n_estimators, random_state)
+        model = RandomForestRegressor(max_depth=md, max_features=mf, n_estimators=ne, random_state=rs)
         model.fit(self.X_train, self.y_train)
         
         self.yhat = model.predict(self.X_test)
     
         return f"r**2 = {r2_score(self.y_test, self.yhat)}"
     
-    def train_final_model(self, max_depth, max_features, n_estimators,random_state):
+    def train_final_model(self, md, mf, ne, rs):
         
         '''Returns the definitive model'''
         
         self.X_def = self.df_cleaned.drop(["price"], axis = 1)
         self.y_def = self.df_cleaned["price"]
         
-        model = RandomForestRegressor(max_depth = max_depth, max_features = max_features, n_estimators = n_estimators, random_state = random_state)
+        model = RandomForestRegressor(max_depth = md, max_features = mf, n_estimators = ne, random_state = rs)
+
         model.fit(self.X_def, self.y_def)
         
-        return model
+        return  model
     
-    def predict(self, array, model):  
+    def predict_model(self, array, model):  
         
         '''Predicts the price given a cleaned array with te features needed'''
         
-        self.price_predicted = self.y_scaler.inverse_transform(model.predict([array]))
+        self.price_predicted = self.y_scaler.inverse_transform([model.predict(array)])
     
     def return_prediction(self):
         
