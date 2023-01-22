@@ -1,7 +1,9 @@
 import streamlit as st
 import airbnb_class as ac
 import pandas as pd
-import numpy as np
+import numpy as np 
+ 
+ 
 
 
 # load the data
