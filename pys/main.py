@@ -2,8 +2,8 @@ import streamlit as st
 import airbnb_class as ac
 import pandas as pd
 import numpy as np 
- 
- 
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import MinMaxScaler
 
 
 # load the data
@@ -20,14 +20,11 @@ d_csvs["csvs2"] = [london]
 d_names["names1"] = ["madrid","barcelona"]
 d_names["names2"] = ["london"]
 
-city_instance = ac.airbnb(d_csvs["csvs1"], d_names["names1"], "csv")
 
-df_city = city_instance.return_initial_df()
 
 # Set streamlit page
 
 st.set_page_config(page_title="Predict your house", page_icon="🏨")
-
 
 
 
@@ -38,6 +35,18 @@ with tab_model:
     st.title('Predictive model')
 
     city = st.selectbox('Select your city', options = ["Madrid", "Barcelona", "London"])
+
+    if city == "Madrid" or city == "Barcelona":
+
+        city_instance = ac.airbnb(d_csvs["csvs1"], d_names["names1"], "csv")
+
+        df_city = city_instance.return_initial_df()
+
+    else: 
+
+        city_instance = ac.airbnb(d_csvs["csvs2"], d_names["names2"], "csv")
+
+        df_city = city_instance.return_initial_df()
 
     house_type = st.selectbox('Select the type of the space', options = ['Entire home/apt', 'Private room', 'Shared room'])
 
@@ -101,12 +110,15 @@ d_columns = {'neighbourhood_cleansed': neighbourhood, 'city':city, 'accommodates
              'Dishes and silverware':l_amenities[2], 'Essentials':l_amenities[3], 'Coffee maker':l_amenities[4], 'Hair dryer':l_amenities[5], 'Microwave':l_amenities[6], 'Refrigerator':l_amenities[7], 'Heating':l_amenities[8], 
              'Air conditioning':l_amenities[9], 'Entire home/apt':d_room_type["Entire home/apt"], 'Private room':d_room_type["Private room"], 'Shared room':d_room_type["Shared room"]}
 
-# l_user_features = [neighbourhood, city, accommodates, availability_365, bathrooms_text, bedrooms, beds, minimum_nights, maximum_nights,  number_of_reviews, reviews_per_month, host_total_listings_count,
-#                   check_amenitie0, check_amenitie1, check_amenitie2, check_amenitie3, check_amenitie4, check_amenitie5, check_amenitie6, check_amenitie7, check_amenitie8, check_amenitie9, d_room_type["Entire home/apt"], d_room_type["Private room"], d_room_type["Shared room"]]
+
+# User DataFrame
 
 df_user = pd.DataFrame(d_columns.items())
 df_user = df_user.T
 df_user = df_user.rename(columns=df_user.iloc[0])
+
+
+
 
 if df_user.shape[0]>1:
     df_user.drop(df_user.index[0], inplace=True)
@@ -119,11 +131,26 @@ instance_prediction = ac.airbnb(data= [df_city_cleaned, df_user] , file= "datafr
 
 df_prediction = instance_prediction.label_encoding(instance_prediction.return_initial_df())
 
-df_prediction = instance_prediction.normalize(df=df_prediction).tail(1)
+#df_prediction = instance_prediction.normalize(df=df_prediction).tail(1)
 
-df_prediction.drop("price", axis=1, inplace=True)
+df_prediction = instance_prediction.normalize(df=df_prediction)
+
+#df_prediction.drop("price", axis=1, inplace=True)
 
 nparr_prediction = df_prediction.values
+
+
+
+###################################################################################################
+df_prediction
+
+X = df_prediction.drop(["price"], axis = 1)
+y = df_prediction["price"]
+        
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 42)
+
+###################################################################################################
+
 
 check_prediction = st.button("Ready, give me the prediction!!",help="")
 
@@ -131,27 +158,15 @@ if check_prediction:
 
     model = instance_prediction.load_model("model1", "sav")
 
-    instance_prediction.predict(nparr_prediction, model)
+    instance_prediction.predict([X_test.iloc[72,:].values], model)                                                   #([X_test.iloc[23,:].values], model)
 
     prediction = instance_prediction.return_prediction()
 
-    st.header(f"The predicted price is: {round(prediction[0][0]/100)}.00 euros")
+    st.header(f"The predicted price is: {round(prediction[0][0])}.00 euros")
 
 
+    y_scaler = MinMaxScaler()
+
+    st.write(instance_prediction.y_scaler.inverse_transform([[y_test.iloc[72]]]))
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-#with open("model.sav", "rb") as file:
-#    model = pickle.load(file)
