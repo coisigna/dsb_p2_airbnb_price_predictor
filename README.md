@@ -1,8 +1,17 @@
 # Introduction
 
+In this Readme we're about to explain all the technical information related with the project development. If you're looking for the fundamentals, motivation or management, [this](https://github.com/coisigna/dsb-p2-ml/wiki) is your site!
 
+We structured this repository separating ipynbs and pys, so you can use all the files in two different ways:
+
+- Colab and try yourself the code used for analyzing, plotting or training the price prediction model.
+- Clone it and develop your own webpage using the [Class.py](https://github.com/coisigna/dsb-p2-ml/blob/main/pys/airbnb_class.py) and the [Main.py](https://github.com/coisigna/dsb-p2-ml/blob/main/pys/main.py) with another datasets of different cities.
+
+All of these datasets were downloaded from [Inside Airbnb](http://insideairbnb.com), a web with a lot of information of different airbnbs around the globe, sustained by Murray Cox, John Morris, Taylor Higgins, Alice Corona, Luca Lamonaca and Michael "Ziggy" Mintz, to those whom we greatly appreciate their work.
 
 # EDA notebook
+
+The development of the entire project, depended on the results obtained in the EDA (Exploratory Data Analysis) stage. [Here](https://github.com/coisigna/dsb-p2-ml/blob/main/ipynbs/EDA%20.ipynb) you can find every plot, dataframe, comparatives and conclusions that lead us to create [Class.py](https://github.com/coisigna/dsb-p2-ml/blob/main/pys/airbnb_class.py) and [Main.py](https://github.com/coisigna/dsb-p2-ml/blob/main/pys/main.py) exactly the way we did it.
 
 # Class.py
 
