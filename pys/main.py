@@ -22,16 +22,19 @@ d_names["names2"] = ["london"]
 
 
 
-# Set streamlit page
+# Setting streamlit page
 
 st.set_page_config(page_title="Predict your house", page_icon="🏨", layout= "wide")
 
-
 tab_model, tab_mapas = st.tabs(["Predictive model","map of yuor city"])
+
 
 with tab_model:
 
     st.title('Predictive model')
+
+
+# Asking the user the features of their space
 
     city = st.selectbox('Select your city', options = ["Madrid", "Barcelona", "London"])
 
@@ -108,18 +111,14 @@ d_columns = {'neighbourhood_cleansed': neighbourhood, 'city':city, 'accommodates
              'Dishes and silverware':l_amenities[2], 'Essentials':l_amenities[3], 'Coffee maker':l_amenities[4], 'Hair dryer':l_amenities[5], 'Microwave':l_amenities[6], 'Refrigerator':l_amenities[7], 'Heating':l_amenities[8], 
              'Air conditioning':l_amenities[9], 'Entire home/apt':d_room_type["Entire home/apt"], 'Private room':d_room_type["Private room"], 'Shared room':d_room_type["Shared room"]}
 
-
-# User DataFrame
-
 df_user = pd.DataFrame(d_columns.items())
 df_user = df_user.T
 df_user = df_user.rename(columns=df_user.iloc[0])
 
-
-
-
 if df_user.shape[0]>1:
     df_user.drop(df_user.index[0], inplace=True)
+
+# Working with the user´s data to get the prediction array
 
 city_instance.clean_tested_columns()
 
@@ -135,17 +134,22 @@ df_prediction.drop("price", axis=1, inplace=True)
 
 nparr_prediction = df_prediction.values
 
+# Prediction
 
 check_prediction = st.button("Ready, give me the prediction!!",help="")
 
 if check_prediction:
 
+    # Uploading the models
+
     model_madrid_barcelona = instance_prediction.load_model("model_madrid_barcelona", "sav")
     model_london = instance_prediction.load_model("model_london", "sav")
 
+    # Final prediction
+
     if city == "Madrid" or city == "Barcelona":
 
-        instance_prediction.predict_model(nparr_prediction, model_madrid_barcelona)                                                   #([X_test.iloc[23,:].values], model)
+        instance_prediction.predict_model(nparr_prediction, model_madrid_barcelona)                                                  
 
         prediction = instance_prediction.return_prediction()
 
@@ -153,7 +157,7 @@ if check_prediction:
 
     else: 
 
-        instance_prediction.predict_model(nparr_prediction, model_london)                                                   #([X_test.iloc[23,:].values], model)
+        instance_prediction.predict_model(nparr_prediction, model_london)                                                  
 
         prediction = instance_prediction.return_prediction()
 
