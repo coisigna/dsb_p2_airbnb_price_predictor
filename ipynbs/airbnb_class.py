@@ -186,25 +186,42 @@ class airbnb:
         if df is None:
             df = self.df_cleaned
             
-        city_encoder = LabelEncoder()
-        df["city"] = city_encoder.fit_transform(df["city"])
-        neighbourhood_encoder = LabelEncoder()
-        df["neighbourhood_cleansed"] = neighbourhood_encoder.fit_transform(df["neighbourhood_cleansed"])
+        self.city_encoder = LabelEncoder()
+        df["city"] = self.city_encoder.fit_transform(df["city"])
+        self.neighbourhood_encoder = LabelEncoder()
+        df["neighbourhood_cleansed"] = self.neighbourhood_encoder.fit_transform(df["neighbourhood_cleansed"])
         
         return df
     
-    def normalize(self, df = None):
+    def normalize(self, df = None, price = None):
         
         if df is None:
             df = self.df_cleaned
             
-        self.x_scaler = MinMaxScaler()
-        self.df_cleaned[self.df_cleaned.drop("price", axis = 1).columns] = self.x_scaler.fit_transform(self.df_cleaned[self.df_cleaned.drop("price", axis = 1).columns])
+        if price is None:
 
-        self.y_scaler = MinMaxScaler()
-        self.df_cleaned["price"] = self.y_scaler.fit_transform(self.df_cleaned[["price"]]).flatten()
+            self.x_scaler = MinMaxScaler()
+            df[df.drop("price", axis = 1).columns] = self.x_scaler.fit_transform(df[df.drop("price", axis = 1).columns])
+
+            self.y_scaler = MinMaxScaler()
+            df["price"] = self.y_scaler.fit_transform(df[["price"]]).flatten()
+
+        else:
+
+            self.x_scaler = MinMaxScaler()
+            df = self.x_scaler.fit_transform(df)
+
         
-        return self.df_cleaned
+        return df
+
+    # def lb_enc_norm_prediction(self, df_prediction):
+
+    #     df_prediction["city"] = self.city_encoder.fit_transform(df_prediction["city"])
+    #     df_prediction["neighbourhood_cleansed"] = self.neighbourhood_encoder.fit_transform(df_prediction["neighbourhood_cleansed"])
+    #     df_prediction = self.x_scaler.fit_transform(df_prediction)
+
+    #     return df_prediction
+  
     
     def tts(self):
         

@@ -24,8 +24,7 @@ d_names["names2"] = ["london"]
 
 # Set streamlit page
 
-st.set_page_config(page_title="Predict your house", page_icon="🏨")
-
+st.set_page_config(page_title="Predict your house", page_icon="🏨", layout= "wide")
 
 
 tab_model, tab_mapas = st.tabs(["Predictive model","map of yuor city"])
@@ -77,7 +76,6 @@ with tab_model:
     reviews_per_month = st.slider("Select the number of reviews per month you have in air bnb", 0, 50)
 
     
-
     st.subheader("Amenities")
 
     col_1, col_2 = st.columns(2)
@@ -131,42 +129,32 @@ instance_prediction = ac.airbnb(data= [df_city_cleaned, df_user] , file= "datafr
 
 df_prediction = instance_prediction.label_encoding(instance_prediction.return_initial_df())
 
-#df_prediction = instance_prediction.normalize(df=df_prediction).tail(1)
+df_prediction = instance_prediction.normalize(df=df_prediction).tail(1)
 
-df_prediction = instance_prediction.normalize(df=df_prediction)
-
-#df_prediction.drop("price", axis=1, inplace=True)
+df_prediction.drop("price", axis=1, inplace=True)
 
 nparr_prediction = df_prediction.values
-
-
-
-###################################################################################################
-df_prediction
-
-X = df_prediction.drop(["price"], axis = 1)
-y = df_prediction["price"]
-        
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 42)
-
-###################################################################################################
 
 
 check_prediction = st.button("Ready, give me the prediction!!",help="")
 
 if check_prediction:
 
-    model = instance_prediction.load_model("model1", "sav")
+    model_madrid_barcelona = instance_prediction.load_model("model_madrid_barcelona", "sav")
+    model_london = instance_prediction.load_model("model_london", "sav")
 
-    instance_prediction.predict([X_test.iloc[72,:].values], model)                                                   #([X_test.iloc[23,:].values], model)
+    if city == "Madrid" or city == "Barcelona":
 
-    prediction = instance_prediction.return_prediction()
+        instance_prediction.predict_model(nparr_prediction, model_madrid_barcelona)                                                   #([X_test.iloc[23,:].values], model)
 
-    st.header(f"The predicted price is: {round(prediction[0][0])}.00 euros")
+        prediction = instance_prediction.return_prediction()
 
+        st.header(f"The predicted price is: {round(prediction[0][0])}.00 euros")
 
-    y_scaler = MinMaxScaler()
+    else: 
 
-    st.write(instance_prediction.y_scaler.inverse_transform([[y_test.iloc[72]]]))
+        instance_prediction.predict_model(nparr_prediction, model_london)                                                   #([X_test.iloc[23,:].values], model)
 
+        prediction = instance_prediction.return_prediction()
 
+        st.header(f"The predicted price is: {round(prediction[0][0]/100)}.00 euros")
