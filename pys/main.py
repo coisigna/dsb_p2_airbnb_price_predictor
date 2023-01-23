@@ -190,7 +190,7 @@ with tab_mapas:
 
         airbnb_map.add_child(folium.Marker(location        = [lat, lng],
                                             popup          = [f"Precio airbnb: {price}"],
-                                            icon           = folium.Icon(icon = "fa-car",
+                                            icon           = folium.Icon(icon = "fa-building-o",
                                                              icon_color       = "white",
                                                              color            = "black",
                                                              prefix           = "fa")))  
