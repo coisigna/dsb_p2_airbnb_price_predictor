@@ -47,8 +47,10 @@ class airbnb:
                 self.l_dfs[enum].drop("source", axis = 1, inplace = True)
                 
                 self.l_dfs[enum]["city"] = city_names[enum].lower()
-        
-            self.df = pd.concat(self.l_dfs)
+
+            if type(data) == list:
+
+                self.df = pd.concat(self.l_dfs)
             
             print("Instance created!")
             
@@ -59,8 +61,10 @@ class airbnb:
             for enum, dataframe in enumerate(data):
                 
                 self.l_dfs.append(dataframe)
+            
+            if type(data) == list:
                                         
-            self.df = pd.concat(self.l_dfs)
+                self.df = pd.concat(self.l_dfs)
             
             print("Instance created!")
             
@@ -379,9 +383,10 @@ class airbnb:
 
     def load_model_joblib(self, name):
 
-        self.jlib_model = joblib.load(name + '.gz')
+        print(name)
+        jlib_model = joblib.load(name)
 
-        return self.jlib_model
+        return jlib_model
 
 
    
