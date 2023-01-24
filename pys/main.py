@@ -93,7 +93,7 @@ with tab_model:
 
         df_city = city_instance_london.return_initial_df()
 
-    house_type = st.selectbox('Select the type of the space', options = ['Entire home/apt', 'Private room', 'Shared room'])
+    house_type = st.selectbox('Select your kind of Airbnb', options = ['Entire home/apt', 'Private room', 'Shared room'])
 
     d_room_type = {'Entire home/apt': 0 , 'Private room': 0, 'Shared room' : 0}
 
@@ -101,25 +101,25 @@ with tab_model:
 
     neighbourhood = st.selectbox('Select the neighbourhood', options = df_city[df_city["city"]==city.lower()]["neighbourhood_cleansed"].unique())
 
-    host_total_listings_count = st.slider("Selectyour listings counts", 0, 100)
+    host_total_listings_count = st.slider("Select your listings count", 0, 100)
 
-    accommodates =st.slider("Select the number of acomodates", 0, 15)
+    accommodates =st.slider("Select the number of accommodates", 0, 15)
 
     bathrooms_text = st.slider("Select the number of bathrooms", 0, 5)
 
     bedrooms = st.slider("Select number of bedrooms", 0, 10)
 
-    beds = st.slider("Select number of bed", 0, 20)
+    beds = st.slider("Select number of beds", 0, 20)
 
-    minimum_nights = st.slider("Select minimun nights", 0, 365)
+    minimum_nights = st.slider("Select minimum nights", 0, 365)
 
-    maximum_nights = st.slider("Select maximun nights", 0, 365)
+    maximum_nights = st.slider("Select maximum nights", 0, 365)
 
     availability_365 = st.slider("Select the days it will be avaliable in a year", 0, 365)
 
-    number_of_reviews = st.slider("Select the number of reviews you have in air bnb", 0, 10000)
+    number_of_reviews = st.slider("Select the number of reviews you have in Airbnb", 0, 10000)
 
-    reviews_per_month = st.slider("Select the number of reviews per month you have in air bnb", 0, 50)
+    reviews_per_month = st.slider("Select the number of reviews per month you have in Airbnb", 0, 50)
 
     
     st.subheader("Amenities")
@@ -220,7 +220,7 @@ with tab_mapas:
     
     df_neighbourhood = df_city[df_city["neighbourhood_cleansed"] == neighbourhood].head(20)
 
-    mapa = folium.Map(location = [lat, long], zoom_start = 15, height= 500)
+    mapa = folium.Map(location = [lat, long], zoom_start = 15)
 
     airbnb_map = folium.map.FeatureGroup()
 
@@ -236,4 +236,4 @@ with tab_mapas:
 
     mapa.add_child(airbnb_map)
 
-    st_map = st_folium(mapa, width=900, height=550)
+    st_folium(mapa, width=900, height=900)
