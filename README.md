@@ -288,11 +288,3 @@ df5.load_model(name = "modelairbnb", ext = ".sav", model = model)
 
 ```
 
-
-
-# Main.py
-
-
-
-
-
