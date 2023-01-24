@@ -206,12 +206,6 @@ with tab_model:
 
 with tab_mapas:
 
-    '''
-    df_
-    
-    
-    '''
-
 
     st.header("Air BNB in your neighbourhood")
 
@@ -226,7 +220,7 @@ with tab_mapas:
     
     df_neighbourhood = df_city[df_city["neighbourhood_cleansed"] == neighbourhood].head(20)
 
-    mapa = folium.Map(location = [lat, long], zoom_start = 15)
+    mapa = folium.Map(location = [lat, long], zoom_start = 15, height= 500)
 
     airbnb_map = folium.map.FeatureGroup()
 
