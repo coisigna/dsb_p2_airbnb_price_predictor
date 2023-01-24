@@ -99,7 +99,7 @@ with tab_model:
 
     d_room_type[house_type] = 1
 
-    neighbourhood = st.selectbox('Select the neighbourhood', options = df_city[df_city["city"]==city.lower()]["neighbourhood_cleansed"].unique())
+    neighbourhood = st.selectbox('Select the neighbourhood', options = df_city[df_city["city"]==city.lower()]["neighbourhood_cleansed"].sort_values().unique())
 
     host_total_listings_count = st.slider("Select your listings count", 0, 100)
 
