@@ -236,4 +236,4 @@ with tab_mapas:
 
     mapa.add_child(airbnb_map)
 
-    st_folium(mapa, width=900, height=900)
+    st_folium(mapa, width=900, height=550)
