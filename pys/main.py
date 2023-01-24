@@ -10,7 +10,7 @@ import os
 
 abs_path = os.path.dirname(os.path.abspath(__file__))
 
-st.set_page_config(page_title="Predict your house", page_icon="🏨", layout= "wide")
+st.set_page_config(page_title="Airbn Price Predictor", page_icon="🏨")
 
 check_prediction_pressed = False
 
