@@ -1,12 +1,10 @@
 import streamlit as st
 import airbnb_class as ac
 import pandas as pd
-import numpy as np 
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import MinMaxScaler
 import folium
 from streamlit_folium import st_folium
 import os
+import plotly.express as px
 
 abs_path = os.path.dirname(os.path.abspath(__file__))
 
@@ -88,10 +86,15 @@ with tab_model:
     if city == "Madrid" or city == "Barcelona":
 
         df_city = city_instance_mb.return_initial_df()
+        city_instance_mb.clean_tested_columns()
+        df_city_cleaned =city_instance_mb.return_cleaned()
 
     else: 
 
         df_city = city_instance_london.return_initial_df()
+        city_instance_london.clean_tested_columns()
+        df_city_cleaned =city_instance_london.return_cleaned()
+
 
     house_type = st.selectbox('Select your kind of Airbnb', options = ['Entire home/apt', 'Private room', 'Shared room'])
 
@@ -206,8 +209,74 @@ with tab_model:
 
 with tab_mapas:
 
+    # Plot
 
-    st.header("Air BNB in your neighbourhood")
+
+
+
+    if city == "Madrid" or city == "Barcelona":
+
+        st.subheader("Price of AirBnB in your city")
+
+        # Mean priced by district
+
+        df_group_neighbourhood = df_city_cleaned[df_city_cleaned["city"]==city.lower()].groupby("neighbourhood_group_cleansed", as_index=False).mean()
+
+        fig = px.histogram(df_group_neighbourhood,
+                    x=df_group_neighbourhood["neighbourhood_group_cleansed"], 
+                    y=["price"], 
+                    orientation="v",
+                    color="neighbourhood_group_cleansed",
+                    template="plotly_dark", 
+                    title= "Mean priced by district")
+
+
+        fig.update_xaxes(title="District")
+        fig.update_yaxes(title="Price")
+
+        st.plotly_chart(fig)
+
+        # Total priced by neighbourhood
+
+        fig = px.histogram(df_city_cleaned[df_city_cleaned["city"]==city.lower()],
+                            x=df_city_cleaned[df_city_cleaned["city"]==city.lower()]["neighbourhood_cleansed"], 
+                            y=["price"], 
+                            orientation="v",
+                            color="neighbourhood_group_cleansed",
+                            template="plotly_dark",
+                            title= "Total priced by neighbourhood")
+
+
+        fig.update_layout(legend=dict(title="District"))
+        fig.update_xaxes(title="Neighbourhood")
+        fig.update_yaxes(title="Price")
+
+        st.plotly_chart(fig)
+
+        # Mean priced by neighbourhood
+
+        df_neighbourhood = df_city_cleaned[df_city_cleaned["city"]==city.lower()].groupby("neighbourhood_cleansed", as_index=False).mean()
+
+        fig = px.histogram(df_neighbourhood,
+                    x=df_neighbourhood["neighbourhood_cleansed"], 
+                    y=["price"], 
+                    orientation="v",
+                    color="neighbourhood_cleansed",
+                    template="plotly_dark",
+                    title= "Mean priced by neighbourhood")
+
+        fig.update_xaxes(title="District")
+        fig.update_yaxes(title="Price")
+
+        st.plotly_chart(fig)
+
+
+
+
+
+    # Map
+
+    st.subheader("Air BNB in your neighbourhood")
 
     st.write(f"City: {city}")
 
@@ -218,7 +287,7 @@ with tab_mapas:
     lat = df_group_neighbourhood[df_group_neighbourhood["neighbourhood_cleansed"] == neighbourhood]["latitude"]
     long = df_group_neighbourhood[df_group_neighbourhood["neighbourhood_cleansed"] == neighbourhood]["longitude"]
     
-    df_neighbourhood = df_city[df_city["neighbourhood_cleansed"] == neighbourhood].head(20)
+    df_neighbourhood = df_city[df_city["neighbourhood_cleansed"] == neighbourhood].head(15)
 
     mapa = folium.Map(location = [lat, long], zoom_start = 15)
 

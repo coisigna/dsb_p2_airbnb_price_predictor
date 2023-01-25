@@ -89,7 +89,7 @@ class airbnb:
         
         # Sets predefined columns
         
-        tested_cols = ['neighbourhood_cleansed', 'city',
+        tested_cols = ['neighbourhood_cleansed',"neighbourhood_group_cleansed", 'city',
                        'room_type', 'accommodates', 'availability_365',
                        'bathrooms_text', 'bedrooms', 'beds', 'amenities', 'price',
                        'minimum_nights', 'maximum_nights',
@@ -187,6 +187,8 @@ class airbnb:
             plt.show()
 
     def label_encoding(self, df = None):
+
+        df.drop("neighbourhood_group_cleansed", axis = 1)
         
         if df is None:
             df = self.df_cleaned
