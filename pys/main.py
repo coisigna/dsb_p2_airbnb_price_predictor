@@ -220,14 +220,14 @@ with tab_mapas:
         df_group_neighbourhood = df_city_cleaned[df_city_cleaned["city"]==city.lower()].groupby("neighbourhood_group_cleansed", as_index=False).mean()
 
         fig = px.histogram(df_group_neighbourhood,
-                    x=df_group_neighbourhood["neighbourhood_group_cleansed"], 
+                    x=df_group_neighbourhood["neighbourhood_group_cleansed"].sort_values(), 
                     y=["price"], 
                     orientation="v",
                     color="neighbourhood_group_cleansed",
                     template="plotly_dark", 
                     title= "Mean priced by district")
 
-        fig.update_layout(legend=dict(title="District"))
+        fig.update_layout(legend=dict(title="District"), width=700, height=550)
         fig.update_xaxes(title="District")
         fig.update_yaxes(title="Price")
 
@@ -236,7 +236,7 @@ with tab_mapas:
         # Total priced by neighbourhood
 
         fig = px.histogram(df_city_cleaned[df_city_cleaned["city"]==city.lower()],
-                            x=df_city_cleaned[df_city_cleaned["city"]==city.lower()]["neighbourhood_cleansed"], 
+                            x=df_city_cleaned[df_city_cleaned["city"]==city.lower()]["neighbourhood_cleansed"].sort_values(), 
                             y=["price"], 
                             orientation="v",
                             color="neighbourhood_group_cleansed",
@@ -244,7 +244,7 @@ with tab_mapas:
                             title= "Total priced by neighbourhood")
 
 
-        fig.update_layout(legend=dict(title="District"))
+        fig.update_layout(legend=dict(title="District"), width=700, height=550)
         fig.update_xaxes(title="Neighbourhood")
         fig.update_yaxes(title="Price")
 
@@ -255,14 +255,14 @@ with tab_mapas:
         df_neighbourhood = df_city_cleaned[df_city_cleaned["city"]==city.lower()].groupby("neighbourhood_cleansed", as_index=False).mean()
 
         fig = px.histogram(df_neighbourhood,
-                    x=df_neighbourhood["neighbourhood_cleansed"], 
+                    x=df_neighbourhood["neighbourhood_cleansed"].sort_values(), 
                     y=["price"], 
                     orientation="v",
                     color="neighbourhood_cleansed",
                     template="plotly_dark",
                     title= "Mean priced by neighbourhood")
 
-        fig.update_layout(legend=dict(title="District"))
+        fig.update_layout(legend=dict(title="District"), width=700, height=550)
         fig.update_xaxes(title="District")
         fig.update_yaxes(title="Price")
 
