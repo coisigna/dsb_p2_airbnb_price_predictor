@@ -227,7 +227,7 @@ with tab_mapas:
                     template="plotly_dark", 
                     title= "Mean priced by district")
 
-
+        fig.update_layout(legend=dict(title="District"))
         fig.update_xaxes(title="District")
         fig.update_yaxes(title="Price")
 
@@ -262,6 +262,7 @@ with tab_mapas:
                     template="plotly_dark",
                     title= "Mean priced by neighbourhood")
 
+        fig.update_layout(legend=dict(title="District"))
         fig.update_xaxes(title="District")
         fig.update_yaxes(title="Price")
 
