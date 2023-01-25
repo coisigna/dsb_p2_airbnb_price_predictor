@@ -99,7 +99,7 @@ class airbnb:
         
         # Transforms price to a float column
         
-        self.df_cleaned["price"] = self.df_cleaned["price"].apply(lambda x: float(x.strip("$").replace(',', '')) if pd.notnull(x) else x).values
+        self.df_cleaned["price"] = self.df["price"].apply(lambda x: float(x.strip("$").replace(',', '')) if pd.notnull(x) else x).values
             
         # Get numbers out of bathroom_text columns
         

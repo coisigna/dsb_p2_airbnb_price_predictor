@@ -71,7 +71,7 @@ city_encoder_london = city_instance_london.load_model_pickle(os.path.join(abs_pa
 neighbourhood_encoder_london = city_instance_london.load_model_pickle(os.path.join(abs_path, "..", "resources", "models", "neighbourhood_encoder_london"), "pkl")
 
 
-tab_model, tab_mapas = st.tabs(["Predictive model","Map of your neighbourhood"])
+tab_model, tab_mapas = st.tabs(["Predictive model","Map & Stats of your neighbourhood"])
 
 
 with tab_model:
@@ -210,9 +210,6 @@ with tab_model:
 with tab_mapas:
 
     # Plot
-
-
-
 
     if city == "Madrid" or city == "Barcelona":
 
