@@ -14,27 +14,27 @@ check_prediction_pressed = False
 
 # Store data in Streamlit caché
 
-@st.cache(allow_output_mutation=True, ttl= 60)
+@st.cache(allow_output_mutation=True, ttl= 24*3600)
 def load_ci_madrid_barcelona():
     return city_instance_mb.load_model_joblib(os.path.join(abs_path, "..", "resources", "models", "model_madrid_barcelona.gz"))
 
-@st.cache(allow_output_mutation=True, ttl= 60)
+@st.cache(allow_output_mutation=True, ttl= 24*3600)
 def load_ci_london():
     return city_instance_london.load_model_joblib(os.path.join(abs_path, "..", "resources", "models", "model_london.gz"))
 
-@st.cache(allow_output_mutation=True, ttl= 60)
+@st.cache(allow_output_mutation=True, ttl= 24*3600)
 def load_madrid_csv():
     return os.path.join(abs_path, "..", "resources", "datasets", "madrid.csv")
 
-@st.cache(allow_output_mutation=True, ttl= 60)
+@st.cache(allow_output_mutation=True, ttl= 24*3600)
 def load_barcelona_csv():
     return os.path.join(abs_path, "..", "resources", "datasets", "barcelona.csv")
 
-@st.cache(allow_output_mutation=True, ttl= 60)
+@st.cache(allow_output_mutation=True, ttl= 24*3600)
 def load_london_csv():
     return os.path.join(abs_path, "..", "resources", "datasets", "london.csv")
 
-@st.cache(allow_output_mutation=True, ttl= 60)
+@st.cache(allow_output_mutation=True, ttl= 24*3600)
 def create_instance_mb():
     d_csvs, d_names = dict(), dict()
     d_csvs["csvs1"] = [madrid, barcelona]
