@@ -14,27 +14,19 @@ check_prediction_pressed = False
 
 # Store data in Streamlit caché
 
-@st.cache(allow_output_mutation=True, ttl= 24*3600)
-def load_ci_madrid_barcelona():
-    return city_instance_mb.load_model_joblib(os.path.join(abs_path, "..", "resources", "models", "model_madrid_barcelona.gz"))
-
-@st.cache(allow_output_mutation=True, ttl= 24*3600)
-def load_ci_london():
-    return city_instance_london.load_model_joblib(os.path.join(abs_path, "..", "resources", "models", "model_london.gz"))
-
-@st.cache(allow_output_mutation=True, ttl= 24*3600)
+@st.experimental_memo(suppress_st_warning=True)
 def load_madrid_csv():
     return os.path.join(abs_path, "..", "resources", "datasets", "madrid.csv")
 
-@st.cache(allow_output_mutation=True, ttl= 24*3600)
+@st.experimental_memo(suppress_st_warning=True)
 def load_barcelona_csv():
     return os.path.join(abs_path, "..", "resources", "datasets", "barcelona.csv")
 
-@st.cache(allow_output_mutation=True, ttl= 24*3600)
+@st.experimental_memo(suppress_st_warning=True)
 def load_london_csv():
     return os.path.join(abs_path, "..", "resources", "datasets", "london.csv")
 
-@st.cache(allow_output_mutation=True, ttl= 24*3600)
+# @st.experimental_memo(suppress_st_warning=True)
 def create_instance_mb():
     d_csvs, d_names = dict(), dict()
     d_csvs["csvs1"] = [madrid, barcelona]
@@ -42,7 +34,7 @@ def create_instance_mb():
 
     return ac.airbnb(d_csvs["csvs1"], d_names["names1"], "csv")
 
-@st.cache(allow_output_mutation=True, ttl= 60)
+# @st.experimental_memo(suppress_st_warning=True)
 def create_instance_london():
     d_csvs, d_names = dict(), dict()
     d_csvs["csvs2"] = [london]
@@ -50,25 +42,80 @@ def create_instance_london():
 
     return ac.airbnb(d_csvs["csvs2"], d_names["names2"], "csv")
 
-madrid = load_madrid_csv()
-barcelona = load_barcelona_csv()
-london = load_london_csv()
+@st.experimental_memo(suppress_st_warning=True)
+def load_ci_madrid_barcelona():
+    return city_instance_mb.load_model_joblib(os.path.join(abs_path, "..", "resources", "models", "model_madrid_barcelona.gz"))
 
-city_instance_mb = create_instance_mb()
-city_instance_london = create_instance_london()
-
-model_madrid_barcelona = load_ci_madrid_barcelona()
-model_london = load_ci_london()
+# @st.experimental_memo(suppress_st_warning=True)
+def load_ci_london():
+    return city_instance_london.load_model_joblib(os.path.join(abs_path, "..", "resources", "models", "model_london.gz"))
 
 
-X_scaler_madrid_barcelona = city_instance_mb.load_model_pickle(os.path.join(abs_path, "..", "resources", "models", "x_scaler_mb"), "pkl")
-y_scaler_madrid_barcelona = city_instance_mb.load_model_pickle(os.path.join(abs_path, "..", "resources", "models", "y_scaler_mb"), "pkl")
-city_encoder_madrid_barcelona = city_instance_mb.load_model_pickle(os.path.join(abs_path, "..", "resources", "models", "city_encoder_mb"), "pkl")
-neighbourhood_encoder_madrid_barcelona = city_instance_mb.load_model_pickle(os.path.join(abs_path, "..", "resources", "models", "neighbourhood_encoder_mb"), "pkl")
-X_scaler_london = city_instance_london.load_model_pickle(os.path.join(abs_path, "..", "resources", "models", "x_scaler_london"), "pkl")
-y_scaler_london = city_instance_london.load_model_pickle(os.path.join(abs_path, "..", "resources", "models", "y_scaler_london"), "pkl")
-city_encoder_london = city_instance_london.load_model_pickle(os.path.join(abs_path, "..", "resources", "models", "city_encoder_london"), "pkl")
-neighbourhood_encoder_london = city_instance_london.load_model_pickle(os.path.join(abs_path, "..", "resources", "models", "neighbourhood_encoder_london"), "pkl")
+if 'madrid' not in st.session_state:
+    st.session_state['madrid'] = load_madrid_csv()
+
+if 'barcelona' not in st.session_state:
+    st.session_state['barcelona'] = load_barcelona_csv()
+
+if 'london' not in st.session_state:
+    st.session_state['london'] = load_london_csv()
+
+madrid = st.session_state['madrid']
+barcelona = st.session_state['barcelona']
+london = st.session_state['london']
+
+if 'city_instance_mb' not in st.session_state:
+    st.session_state['city_instance_mb'] = create_instance_mb()
+
+if 'city_instance_london' not in st.session_state:
+    st.session_state['city_instance_london'] = create_instance_london()
+
+city_instance_mb = st.session_state['city_instance_mb']
+city_instance_london = st.session_state['city_instance_london']
+
+if 'model_madrid_barcelona' not in st.session_state:
+    st.session_state['model_madrid_barcelona'] = load_ci_madrid_barcelona()
+
+if 'model_london' not in st.session_state:
+    st.session_state['model_london'] = load_ci_london()
+
+model_madrid_barcelona = st.session_state['model_madrid_barcelona']
+model_london = st.session_state['model_london'] 
+
+
+if 'X_scaler_madrid_barcelona' not in st.session_state:
+    st.session_state['X_scaler_madrid_barcelona'] = city_instance_mb.load_model_pickle(os.path.join(abs_path, "..", "resources", "models", "x_scaler_mb"), "pkl")
+
+if 'y_scaler_madrid_barcelona' not in st.session_state:
+    st.session_state['y_scaler_madrid_barcelona'] = city_instance_mb.load_model_pickle(os.path.join(abs_path, "..", "resources", "models", "y_scaler_mb"), "pkl")
+
+if 'city_encoder_madrid_barcelona' not in st.session_state:
+    st.session_state['city_encoder_madrid_barcelona'] = city_instance_mb.load_model_pickle(os.path.join(abs_path, "..", "resources", "models", "city_encoder_mb"), "pkl")
+
+if 'neighbourhood_encoder_madrid_barcelona' not in st.session_state:
+    st.session_state['neighbourhood_encoder_madrid_barcelona'] = city_instance_mb.load_model_pickle(os.path.join(abs_path, "..", "resources", "models", "neighbourhood_encoder_mb"), "pkl")
+
+if 'X_scaler_london' not in st.session_state:
+    st.session_state['X_scaler_london'] = city_instance_london.load_model_pickle(os.path.join(abs_path, "..", "resources", "models", "x_scaler_london"), "pkl")
+
+if 'y_scaler_london' not in st.session_state:
+    st.session_state['y_scaler_london'] = city_instance_london.load_model_pickle(os.path.join(abs_path, "..", "resources", "models", "y_scaler_london"), "pkl")
+
+if 'city_encoder_london' not in st.session_state:
+    st.session_state['city_encoder_london'] = city_instance_london.load_model_pickle(os.path.join(abs_path, "..", "resources", "models", "city_encoder_london"), "pkl")
+
+if 'neighbourhood_encoder_london' not in st.session_state:
+    st.session_state['neighbourhood_encoder_london'] = city_instance_london.load_model_pickle(os.path.join(abs_path, "..", "resources", "models", "neighbourhood_encoder_london"), "pkl")
+
+
+X_scaler_madrid_barcelona = st.session_state['X_scaler_madrid_barcelona']
+y_scaler_madrid_barcelona = st.session_state['y_scaler_madrid_barcelona']
+city_encoder_madrid_barcelona = st.session_state['city_encoder_madrid_barcelona']
+neighbourhood_encoder_madrid_barcelona = st.session_state['neighbourhood_encoder_madrid_barcelona']
+X_scaler_london = st.session_state['X_scaler_london']
+y_scaler_london = st.session_state['y_scaler_london']
+city_encoder_london = st.session_state['city_encoder_london']
+neighbourhood_encoder_london = st.session_state['neighbourhood_encoder_london']
 
 
 tab_model, tab_mapas = st.tabs(["Predictive model","Map & Stats of your neighbourhood"])
@@ -236,7 +283,7 @@ with tab_mapas:
         # Total priced by neighbourhood
 
         fig = px.histogram(df_city_cleaned[df_city_cleaned["city"]==city.lower()],
-                            x=df_city_cleaned[df_city_cleaned["city"]==city.lower()]["neighbourhood_cleansed"].sort_values(), 
+                            x=df_city_cleaned[df_city_cleaned["city"]==city.lower()]["neighbourhood_cleansed"], 
                             y=["price"], 
                             orientation="v",
                             color="neighbourhood_group_cleansed",
@@ -262,8 +309,8 @@ with tab_mapas:
                     template="plotly_dark",
                     title= "Mean priced by neighbourhood")
 
-        fig.update_layout(legend=dict(title="District"), width=700, height=550)
-        fig.update_xaxes(title="District")
+        fig.update_layout(legend=dict(title="Neighbourhood"), width=700, height=550)
+        fig.update_xaxes(title="Neighbourhood")
         fig.update_yaxes(title="Price")
 
         st.plotly_chart(fig)
