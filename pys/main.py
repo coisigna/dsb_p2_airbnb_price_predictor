@@ -14,15 +14,15 @@ check_prediction_pressed = False
 
 # Store data in Streamlit caché
 
-@st.experimental_memo(suppress_st_warning=True)
+# @st.experimental_memo(suppress_st_warning=True)
 def load_madrid_csv():
     return os.path.join(abs_path, "..", "resources", "datasets", "madrid.csv")
 
-@st.experimental_memo(suppress_st_warning=True)
+# @st.experimental_memo(suppress_st_warning=True)
 def load_barcelona_csv():
     return os.path.join(abs_path, "..", "resources", "datasets", "barcelona.csv")
 
-@st.experimental_memo(suppress_st_warning=True)
+# @st.experimental_memo(suppress_st_warning=True)
 def load_london_csv():
     return os.path.join(abs_path, "..", "resources", "datasets", "london.csv")
 
@@ -42,7 +42,7 @@ def create_instance_london():
 
     return ac.airbnb(d_csvs["csvs2"], d_names["names2"], "csv")
 
-@st.experimental_memo(suppress_st_warning=True)
+# @st.experimental_memo(suppress_st_warning=True)
 def load_ci_madrid_barcelona():
     return city_instance_mb.load_model_joblib(os.path.join(abs_path, "..", "resources", "models", "model_madrid_barcelona.gz"))
 
