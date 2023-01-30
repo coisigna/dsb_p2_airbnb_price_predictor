@@ -12,6 +12,7 @@ st.set_page_config(page_title="Airbn Price Predictor", page_icon="🏨")
 
 check_prediction_pressed = False
 
+
 # Store data in Streamlit caché
 
 # @st.experimental_memo(suppress_st_warning=True)
@@ -244,6 +245,11 @@ with tab_model:
 
             st.header(f"The predicted price is: {round(prediction[0][0])}.00 euros")
 
+            st.warning("*Disclaimer: This is a predictive model based on the algorithm RandomForest. To give you some context, here you have the metrics:")
+            st.markdown("- r2 = 0,728. <<it represents the proportion of the variance for a dependent variable>>")
+            st.markdown("- MSE = 0.012797. <<it measures the average of the squares of the errors, that is, the average squared difference between the estimated values and the actual value")
+
+
         else: 
 
             city_instance_london.predict_price(nparr_prediction, model_london, y_scaler_london)                                                  
@@ -251,6 +257,10 @@ with tab_model:
             prediction = city_instance_london.return_prediction()
 
             st.header(f"The predicted price is: {round(prediction[0][0])}.00 euros")
+
+            st.warning("*Disclaimer: This is a predictive model based on the algorithm RandomForest. To give you some context, here you have the metrics:")
+            st.markdown("- r2 = 0,728. <<it represents the proportion of the variance for a dependent variable>>")
+            st.markdown("- MSE: 0.012797. <<it measures the average of the squares of the errors, that is, the average squared difference between the estimated values and the actual value")
 
 
 
@@ -316,38 +326,35 @@ with tab_mapas:
         st.plotly_chart(fig)
 
 
+    # # Map
 
+    # st.subheader("Air BNB in your neighbourhood")
 
+    # st.write(f"City: {city}")
 
-    # Map
+    # st.write(f"Neighbourhood: {neighbourhood}")
 
-    st.subheader("Air BNB in your neighbourhood")
+    # df_group_neighbourhood = df_city.groupby("neighbourhood_cleansed", as_index=False).mean()
 
-    st.write(f"City: {city}")
-
-    st.write(f"Neighbourhood: {neighbourhood}")
-
-    df_group_neighbourhood = df_city.groupby("neighbourhood_cleansed", as_index=False).mean()
-
-    lat = df_group_neighbourhood[df_group_neighbourhood["neighbourhood_cleansed"] == neighbourhood]["latitude"]
-    long = df_group_neighbourhood[df_group_neighbourhood["neighbourhood_cleansed"] == neighbourhood]["longitude"]
+    # lat = df_group_neighbourhood[df_group_neighbourhood["neighbourhood_cleansed"] == neighbourhood]["latitude"]
+    # long = df_group_neighbourhood[df_group_neighbourhood["neighbourhood_cleansed"] == neighbourhood]["longitude"]
     
-    df_neighbourhood = df_city[df_city["neighbourhood_cleansed"] == neighbourhood].head(15)
+    # df_neighbourhood = df_city[df_city["neighbourhood_cleansed"] == neighbourhood].head(15)
 
-    mapa = folium.Map(location = [lat, long], zoom_start = 15)
+    # mapa = folium.Map(location = [lat, long], zoom_start = 15)
 
-    airbnb_map = folium.map.FeatureGroup()
+    # airbnb_map = folium.map.FeatureGroup()
 
-    for lat, lng,  price in zip(df_neighbourhood["latitude"], df_neighbourhood["longitude"], df_neighbourhood['price']):
+    # for lat, lng,  price in zip(df_neighbourhood["latitude"], df_neighbourhood["longitude"], df_neighbourhood['price']):
 
-        airbnb_map.add_child(folium.Marker(location        = [lat, lng],
-                                            popup          = [f"Precio airbnb: {price}"],
-                                            icon           = folium.Icon(icon = "fa-building-o",
-                                                             icon_color       = "white",
-                                                             color            = "black",
-                                                             prefix           = "fa")))  
+    #     airbnb_map.add_child(folium.Marker(location        = [lat, lng],
+    #                                         popup          = [f"Precio airbnb: {price}"],
+    #                                         icon           = folium.Icon(icon = "fa-building-o",
+    #                                                          icon_color       = "white",
+    #                                                          color            = "black",
+    #                                                          prefix           = "fa")))  
 
 
-    mapa.add_child(airbnb_map)
+    # mapa.add_child(airbnb_map)
 
-    st_folium(mapa, width=900, height=550)
+    # st_folium(mapa, width=900, height=550)
