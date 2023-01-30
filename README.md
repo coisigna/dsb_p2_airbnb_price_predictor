@@ -288,3 +288,32 @@ df5.load_model(name = "modelairbnb", ext = ".sav", model = model)
 
 ```
 
+# Main.py
+
+## Load data
+
+It loads every single file the app will need and create instances to call the class
+
+## Adding user features
+
+- house_type: kind of space the user wants to check
+- d_room_type: type of room the user wants to check
+- neighbourhood: neighbourhood were the space is located
+- host_total_listings_count: numbrer of spaces the host has on airbnb
+- accommodates: number of accomodates
+- bathrooms: number of bathrooms  
+- bedrooms: number of bedrooms
+- beds: number of beds 
+- minimum_nights: minimun nights it is allowed to stay
+- maximum_nights: maximun nights it is allowed to stay
+- availability_365: number of days the space will be avaliable in a year
+- number_of_reviews: number of reviews on airbnb plataform
+- reviews_per_month: number of reviews per month on airbnb plataform
+- amenities: amenities that will be available 
+
+# Graphics
+
+- Bar plot of the mean price by district
+- Bar plot of the total price by neigbourhood and district
+- Bar plot of the mean price by neigbourhood
+- Map with a sample of 15 different sapces in the neighbourhood chosen
