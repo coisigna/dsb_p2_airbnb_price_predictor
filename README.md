@@ -297,7 +297,7 @@ It loads every single file the app will need and create instances to call the cl
 ## Adding user features
 
 - house_type: kind of space the user wants to check
-- d_room_type: type of room the user wants to check
+- room_type: type of room the user wants to check
 - neighbourhood: neighbourhood were the space is located
 - host_total_listings_count: numbrer of spaces the host has on airbnb
 - accommodates: number of accomodates
@@ -311,7 +311,7 @@ It loads every single file the app will need and create instances to call the cl
 - reviews_per_month: number of reviews per month on airbnb plataform
 - amenities: amenities that will be available 
 
-# Graphics
+## Graphics
 
 - Bar plot of the mean price by district
 - Bar plot of the total price by neigbourhood and district
