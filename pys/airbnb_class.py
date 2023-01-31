@@ -88,6 +88,7 @@ class airbnb:
         """
         
         # Sets predefined columns
+
         
         tested_cols = ['neighbourhood_cleansed',"neighbourhood_group_cleansed", 'city',
                        'room_type', 'accommodates', 'availability_365',

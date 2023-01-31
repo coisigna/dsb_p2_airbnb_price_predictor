@@ -13,21 +13,20 @@ st.set_page_config(page_title="Airbn Price Predictor", page_icon="🏨")
 check_prediction_pressed = False
 
 
-# Store data in Streamlit caché
-
-# @st.experimental_memo(suppress_st_warning=True)
 def load_madrid_csv():
     return os.path.join(abs_path, "..", "resources", "datasets", "madrid.csv")
 
-# @st.experimental_memo(suppress_st_warning=True)
 def load_barcelona_csv():
     return os.path.join(abs_path, "..", "resources", "datasets", "barcelona.csv")
 
-# @st.experimental_memo(suppress_st_warning=True)
 def load_london_csv():
     return os.path.join(abs_path, "..", "resources", "datasets", "london.csv")
 
-# @st.experimental_memo(suppress_st_warning=True)
+madrid = load_madrid_csv()
+barcelona = load_barcelona_csv()
+london = load_london_csv()
+
+
 def create_instance_mb():
     d_csvs, d_names = dict(), dict()
     d_csvs["csvs1"] = [madrid, barcelona]
@@ -35,7 +34,7 @@ def create_instance_mb():
 
     return ac.airbnb(d_csvs["csvs1"], d_names["names1"], "csv")
 
-# @st.experimental_memo(suppress_st_warning=True)
+
 def create_instance_london():
     d_csvs, d_names = dict(), dict()
     d_csvs["csvs2"] = [london]
@@ -43,80 +42,17 @@ def create_instance_london():
 
     return ac.airbnb(d_csvs["csvs2"], d_names["names2"], "csv")
 
-# @st.experimental_memo(suppress_st_warning=True)
+
 def load_ci_madrid_barcelona():
     return city_instance_mb.load_model_joblib(os.path.join(abs_path, "..", "resources", "models", "model_madrid_barcelona.gz"))
 
-# @st.experimental_memo(suppress_st_warning=True)
 def load_ci_london():
     return city_instance_london.load_model_joblib(os.path.join(abs_path, "..", "resources", "models", "model_london.gz"))
 
 
-if 'madrid' not in st.session_state:
-    st.session_state['madrid'] = load_madrid_csv()
+city_instance_mb = create_instance_mb()
 
-if 'barcelona' not in st.session_state:
-    st.session_state['barcelona'] = load_barcelona_csv()
-
-if 'london' not in st.session_state:
-    st.session_state['london'] = load_london_csv()
-
-madrid = st.session_state['madrid']
-barcelona = st.session_state['barcelona']
-london = st.session_state['london']
-
-if 'city_instance_mb' not in st.session_state:
-    st.session_state['city_instance_mb'] = create_instance_mb()
-
-if 'city_instance_london' not in st.session_state:
-    st.session_state['city_instance_london'] = create_instance_london()
-
-city_instance_mb = st.session_state['city_instance_mb']
-city_instance_london = st.session_state['city_instance_london']
-
-if 'model_madrid_barcelona' not in st.session_state:
-    st.session_state['model_madrid_barcelona'] = load_ci_madrid_barcelona()
-
-if 'model_london' not in st.session_state:
-    st.session_state['model_london'] = load_ci_london()
-
-model_madrid_barcelona = st.session_state['model_madrid_barcelona']
-model_london = st.session_state['model_london'] 
-
-
-if 'X_scaler_madrid_barcelona' not in st.session_state:
-    st.session_state['X_scaler_madrid_barcelona'] = city_instance_mb.load_model_pickle(os.path.join(abs_path, "..", "resources", "models", "x_scaler_mb"), "pkl")
-
-if 'y_scaler_madrid_barcelona' not in st.session_state:
-    st.session_state['y_scaler_madrid_barcelona'] = city_instance_mb.load_model_pickle(os.path.join(abs_path, "..", "resources", "models", "y_scaler_mb"), "pkl")
-
-if 'city_encoder_madrid_barcelona' not in st.session_state:
-    st.session_state['city_encoder_madrid_barcelona'] = city_instance_mb.load_model_pickle(os.path.join(abs_path, "..", "resources", "models", "city_encoder_mb"), "pkl")
-
-if 'neighbourhood_encoder_madrid_barcelona' not in st.session_state:
-    st.session_state['neighbourhood_encoder_madrid_barcelona'] = city_instance_mb.load_model_pickle(os.path.join(abs_path, "..", "resources", "models", "neighbourhood_encoder_mb"), "pkl")
-
-if 'X_scaler_london' not in st.session_state:
-    st.session_state['X_scaler_london'] = city_instance_london.load_model_pickle(os.path.join(abs_path, "..", "resources", "models", "x_scaler_london"), "pkl")
-
-if 'y_scaler_london' not in st.session_state:
-    st.session_state['y_scaler_london'] = city_instance_london.load_model_pickle(os.path.join(abs_path, "..", "resources", "models", "y_scaler_london"), "pkl")
-
-if 'city_encoder_london' not in st.session_state:
-    st.session_state['city_encoder_london'] = city_instance_london.load_model_pickle(os.path.join(abs_path, "..", "resources", "models", "city_encoder_london"), "pkl")
-
-if 'neighbourhood_encoder_london' not in st.session_state:
-    st.session_state['neighbourhood_encoder_london'] = city_instance_london.load_model_pickle(os.path.join(abs_path, "..", "resources", "models", "neighbourhood_encoder_london"), "pkl")
-
-
-X_scaler_madrid_barcelona = st.session_state['X_scaler_madrid_barcelona']
-y_scaler_madrid_barcelona = st.session_state['y_scaler_madrid_barcelona']
-city_encoder_madrid_barcelona = st.session_state['city_encoder_madrid_barcelona']
-neighbourhood_encoder_madrid_barcelona = st.session_state['neighbourhood_encoder_madrid_barcelona']
-X_scaler_london = st.session_state['X_scaler_london']
-y_scaler_london = st.session_state['y_scaler_london']
-city_encoder_london = st.session_state['city_encoder_london']
-neighbourhood_encoder_london = st.session_state['neighbourhood_encoder_london']
+city_instance_london = create_instance_london()
 
 
 tab_model, tab_mapas = st.tabs(["Predictive model","Map & Stats of your neighbourhood"])
@@ -218,10 +154,22 @@ with tab_model:
 
     if city == "Madrid" or city == "Barcelona":
 
+        city_encoder_madrid_barcelona = city_instance_mb.load_model_pickle(os.path.join(abs_path, "..", "resources", "models", "city_encoder_mb"), "pkl")
+
+        neighbourhood_encoder_madrid_barcelona = city_instance_mb.load_model_pickle(os.path.join(abs_path, "..", "resources", "models", "neighbourhood_encoder_mb"), "pkl")
+
+        X_scaler_madrid_barcelona = city_instance_mb.load_model_pickle(os.path.join(abs_path, "..", "resources", "models", "x_scaler_mb"), "pkl")
+
         df_user = city_instance_mb.norm_enc_prediction([city_encoder_madrid_barcelona, neighbourhood_encoder_madrid_barcelona], X_scaler_madrid_barcelona, df_user, ["city", "neighbourhood_cleansed"])
 
 
     else:
+
+        city_encoder_london = city_instance_london.load_model_pickle(os.path.join(abs_path, "..", "resources", "models", "city_encoder_london"), "pkl")
+
+        neighbourhood_encoder_london = city_instance_london.load_model_pickle(os.path.join(abs_path, "..", "resources", "models", "neighbourhood_encoder_london"), "pkl")
+
+        X_scaler_london = city_instance_london.load_model_pickle(os.path.join(abs_path, "..", "resources", "models", "x_scaler_london"), "pkl")
 
         df_user = city_instance_london.norm_enc_prediction([city_encoder_london, neighbourhood_encoder_london], X_scaler_london, df_user, ["city", "neighbourhood_cleansed"])
 
@@ -239,6 +187,10 @@ with tab_model:
 
         if city == "Madrid" or city == "Barcelona":
 
+            model_madrid_barcelona = load_ci_madrid_barcelona()
+
+            y_scaler_madrid_barcelona = city_instance_mb.load_model_pickle(os.path.join(abs_path, "..", "resources", "models", "y_scaler_mb"), "pkl")
+
             city_instance_mb.predict_price(nparr_prediction, model_madrid_barcelona, y_scaler_madrid_barcelona)                                                  
 
             prediction = city_instance_mb.return_prediction()
@@ -251,6 +203,9 @@ with tab_model:
 
 
         else: 
+            model_london = load_ci_london()
+
+            y_scaler_london = city_instance_london.load_model_pickle(os.path.join(abs_path, "..", "resources", "models", "y_scaler_london"), "pkl")
 
             city_instance_london.predict_price(nparr_prediction, model_london, y_scaler_london)                                                  
 
