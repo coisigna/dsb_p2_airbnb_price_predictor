@@ -22,6 +22,7 @@ def load_barcelona_csv():
 def load_london_csv():
     return os.path.join(abs_path, "..", "resources", "datasets", "london.csv")
 
+
 madrid = load_madrid_csv()
 barcelona = load_barcelona_csv()
 london = load_london_csv()
